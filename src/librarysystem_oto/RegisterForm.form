@@ -417,6 +417,9 @@
                   <Image iconType="3" name="/librarysystem_oto/images/update_FILL0_wght400_GRAD0_opsz48.png"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel4MouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

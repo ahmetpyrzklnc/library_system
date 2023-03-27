@@ -1,18 +1,78 @@
 package librarysystem_oto;
 
+import java.sql.*;
+import java.util.Random;
+import javax.swing.JOptionPane;
 
 public class RegisterForm extends javax.swing.JFrame {
 
+    public String Captcha() {
+        String CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        StringBuilder str = new StringBuilder();
+        Random rnd = new Random();
+        while (str.length() < 5) {
+            int index = (int) (rnd.nextFloat() * CHARS.length());
+            str.append(CHARS.charAt(index));
+        }
+        String generatedCaptcha = str.toString();
+        return generatedCaptcha;
+    }
 
     public RegisterForm() {
         initComponents();
 
-       
+        captcha_label.setText(Captcha());
     }
 
+    public void Insert() throws SQLException {
+        Connection connection = null;
+        dbHelper helper = new dbHelper();
+        PreparedStatement statement = null;
 
+        try {
+            connection = helper.getConnection();
+            String sql = "INSERT INTO `library_systemdb`.`users` (`UserName`, `UserLastName`, `UserPassword`)"
+                    + " VALUES (?,?,?);";
 
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, user_textName_register.getText());
+            statement.setString(2, user_TextLastname_Register.getText());
+            statement.setString(3, user_TextPassword_register.getText());
 
+            statement.executeUpdate();
+
+            JOptionPane.showMessageDialog(null, "Kayıt Başarıyla Oluşturuldu!");
+        } catch (SQLException exception) {
+            helper.showErrorMessage(exception);
+        } finally {
+            statement.close();
+            connection.close();
+        }
+
+    }
+
+    public void verification() throws SQLException {
+        String passwordtext1 = new String(user_TextPassword_register.getPassword());
+        String passwordtext2 = new String(user_TextPassword_register2.getPassword());
+
+        String captcha_text = this.captcha_text.getText();
+
+        if (captcha_text.equals(captcha_label.getText()) == false) {
+
+            int startNew = JOptionPane.showConfirmDialog(null, "Doğrulama kodunuz yanlıştır. Lütfen Tekrar Giriniz!", "Bilgi", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
+            this.captcha_text.setText("");
+
+        } else if (passwordtext1.equals(passwordtext2) == false) {
+            int startNew = JOptionPane.showConfirmDialog(null, "Şifreleriniz Uyuşmuyor! Lütfen Kontrol Ediniz!", "Bilgi", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
+            user_TextPassword_register.setText("");
+            user_TextPassword_register2.setText("");
+
+        } else {
+
+            Insert();
+        }
+
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -135,6 +195,11 @@ public class RegisterForm extends javax.swing.JFrame {
         captcha_text.setForeground(new java.awt.Color(228, 241, 254));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/librarysystem_oto/images/update_FILL0_wght400_GRAD0_opsz48.png"))); // NOI18N
+        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel4MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -160,9 +225,7 @@ public class RegisterForm extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(243, 243, 243))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(user_textName_register, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(user_textName_register, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap())
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -290,11 +353,17 @@ public class RegisterForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_registerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_registerActionPerformed
+        try {
+            verification();
+        } catch (SQLException ex) {
 
+        }
     }//GEN-LAST:event_btn_registerActionPerformed
 
     private void btn_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_loginActionPerformed
-
+        LoginForm login = new LoginForm();
+        login.setVisible(true);
+        dispose();
     }//GEN-LAST:event_btn_loginActionPerformed
 
     private void user_TextPassword_registerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_user_TextPassword_registerActionPerformed
@@ -302,12 +371,22 @@ public class RegisterForm extends javax.swing.JFrame {
     }//GEN-LAST:event_user_TextPassword_registerActionPerformed
 
     private void checkbox_passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkbox_passwordActionPerformed
-
+        if (checkbox_password.isSelected()) {
+            user_TextPassword_register.setEchoChar((char) 0);
+            user_TextPassword_register2.setEchoChar((char) 0);
+        } else {
+            user_TextPassword_register.setEchoChar('*');
+            user_TextPassword_register2.setEchoChar('*');
+        }
     }//GEN-LAST:event_checkbox_passwordActionPerformed
 
     private void user_TextPassword_register2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_user_TextPassword_register2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_user_TextPassword_register2ActionPerformed
+
+    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
+        captcha_label.setText(Captcha());
+    }//GEN-LAST:event_jLabel4MouseClicked
 
     /**
      * @param args the command line arguments

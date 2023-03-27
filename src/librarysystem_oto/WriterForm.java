@@ -1,13 +1,144 @@
 package librarysystem_oto;
 
+import java.sql.*;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 public class WriterForm extends javax.swing.JFrame {
 
     public WriterForm() {
         initComponents();
-        
+        PopulateTable();
     }
 
+    DefaultTableModel model;
+
+    public void PopulateTable() {
+        model = (DefaultTableModel) tbl_Writer.getModel();
+        model.setRowCount(0);
+
+        try {
+            ArrayList<WriterManager> writer = getWriterManager();
+            for (WriterManager writers : writer) {
+                Object[] row = {writers.getWriterID(), writers.getWriterName(),
+                    writers.getWriterLastname()};
+
+                model.addRow(row);
+            }
+        } catch (Exception exception) {
+        }
+
+    }
+
+    public ArrayList<WriterManager> getWriterManager() throws SQLException {
+        Connection connection = null;
+        dbHelper helper = new dbHelper();
+        Statement statement = null;
+        ResultSet resultSet;
+
+        ArrayList<WriterManager> writer = null;
+
+        try {
+            connection = helper.getConnection();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM library_systemdb.writer;");
+
+            writer = new ArrayList<WriterManager>();
+
+            while (resultSet.next()) {
+                writer.add(new WriterManager(resultSet.getInt("WriterID"),
+                        resultSet.getString("WriterName"), resultSet.getString("WriterLastname")));
+            }
+
+        } catch (SQLException exception) {
+            helper.showErrorMessage(exception);
+        } finally {
+            statement.close();
+            connection.close();
+        }
+
+        return writer;
+    }
+
+    public void Insert() throws SQLException {
+        Connection connection = null;
+        dbHelper helper = new dbHelper();
+        PreparedStatement statement = null;
+
+        try {
+            connection = helper.getConnection();
+            String sql = "INSERT INTO `library_systemdb`.`writer` (`WriterName`, `WriterLastname`) VALUES (?,?);";
+
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, WriterName.getText());
+            statement.setString(2, WriterLastName.getText());
+
+            int result = statement.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Kayıt Başarıyla Oluşturuldu!");
+
+            PopulateTable();
+
+        } catch (SQLException exception) {
+            helper.showErrorMessage(exception);
+        } finally {
+            statement.close();
+            connection.close();
+        }
+    }
+
+    public void Update() throws SQLException {
+        String id, name, lastName;
+
+        id = WriterID.getText();
+        name = WriterName.getText();
+        lastName = WriterLastName.getText();
+
+        Connection connection = null;
+        dbHelper helper = new dbHelper();
+        PreparedStatement statement = null;
+
+        try {
+            connection = helper.getConnection();
+            String sql = ("UPDATE `library_systemdb`.`writer` SET `WriterName` = '" + name + "', `WriterLastname` = '" + lastName + "' WHERE (`WriterID` = '" + id + "');");
+            statement = connection.prepareStatement(sql);
+
+            int result = statement.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Kayıt Başarıyla Güncellendi!");
+            PopulateTable();
+        } catch (SQLException exception) {
+            helper.showErrorMessage(exception);
+        } finally {
+            statement.close();
+            connection.close();
+        }
+    }
+
+    public void Delete() throws SQLException {
+        String id;
+
+        id = WriterID.getText();
+        Connection connection = null;
+        dbHelper helper = new dbHelper();
+        PreparedStatement statement = null;
+
+        try {
+            connection = helper.getConnection();
+            String sql = ("DELETE FROM `library_systemdb`.`writer` WHERE `WriterID` = '" + id + "'");
+            statement = connection.prepareStatement(sql);
+
+            int result = statement.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Kayıt Başarıyla Silindi!");
+            PopulateTable();
+        } catch (SQLException exception) {
+            helper.showErrorMessage(exception);
+        } finally {
+            statement.close();
+            connection.close();
+        }
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -404,7 +535,7 @@ public class WriterForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txt_WriterSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_WriterSearchMouseClicked
-       
+        txt_WriterSearch.setText("");
     }//GEN-LAST:event_txt_WriterSearchMouseClicked
 
     private void txt_WriterSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_WriterSearchActionPerformed
@@ -412,39 +543,56 @@ public class WriterForm extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_WriterSearchActionPerformed
 
     private void txt_WriterSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_WriterSearchKeyReleased
-
+        String search = txt_WriterSearch.getText();
+        TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<>(model);
+        tbl_Writer.setRowSorter(tableRowSorter);
+        tableRowSorter.setRowFilter(RowFilter.regexFilter(search));
     }//GEN-LAST:event_txt_WriterSearchKeyReleased
 
     private void btn_Writer_UpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Writer_UpdateActionPerformed
+        try {
+            Update();
+        } catch (SQLException ex) {
 
+        }
     }//GEN-LAST:event_btn_Writer_UpdateActionPerformed
 
     private void btn_Writer_AddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Writer_AddActionPerformed
- 
+        try {
+            Insert();
+        } catch (SQLException ex) {
+
+        }
     }//GEN-LAST:event_btn_Writer_AddActionPerformed
 
     private void btn_Writer_DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Writer_DeleteActionPerformed
+        try {
+            Delete();
+        } catch (SQLException ex) {
 
+        }
     }//GEN-LAST:event_btn_Writer_DeleteActionPerformed
 
     private void btnHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHomeActionPerformed
-
+        HomePageForm home = new HomePageForm();
+        home.setVisible(true);
+        dispose();
     }//GEN-LAST:event_btnHomeActionPerformed
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
-        
+        System.exit(0);
     }//GEN-LAST:event_btnExitActionPerformed
 
     private void WriterIDMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_WriterIDMouseClicked
-        
+        WriterID.setText("");
     }//GEN-LAST:event_WriterIDMouseClicked
 
     private void WriterNameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_WriterNameMouseClicked
-        
+        WriterName.setText("");
     }//GEN-LAST:event_WriterNameMouseClicked
 
     private void WriterLastNameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_WriterLastNameMouseClicked
-       
+        WriterLastName.setText("");
     }//GEN-LAST:event_WriterLastNameMouseClicked
 
     private void tbl_WriterKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbl_WriterKeyReleased
@@ -452,7 +600,9 @@ public class WriterForm extends javax.swing.JFrame {
     }//GEN-LAST:event_tbl_WriterKeyReleased
 
     private void tbl_WriterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_WriterMouseClicked
-
+        WriterID.setText(model.getValueAt(tbl_Writer.getSelectedRow(), 0).toString());
+        WriterName.setText(model.getValueAt(tbl_Writer.getSelectedRow(), 1).toString());
+        WriterLastName.setText(model.getValueAt(tbl_Writer.getSelectedRow(), 2).toString());
     }//GEN-LAST:event_tbl_WriterMouseClicked
 
     public static void main(String args[]) {

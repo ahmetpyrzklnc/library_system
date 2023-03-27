@@ -400,7 +400,11 @@ public class ProcessFormScreen extends javax.swing.JFrame {
         try {
             connection = helper.getConnection();
             String sql = ("DELETE FROM `library_systemdb`.`process` WHERE (`ProcessID` = '" + Process_id + "');");
+            statement = connection.prepareStatement(sql);
             PopulateProcessTable();
+
+            int result = statement.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Kayıt Başarıyla Silindi!");
         } catch (SQLException exception) {
             helper.showErrorMessage(exception);
         } finally {
@@ -1421,6 +1425,7 @@ public class ProcessFormScreen extends javax.swing.JFrame {
 
     private void tbl_processMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_processMouseClicked
         ProcessID.setText(model.getValueAt(tbl_process.getSelectedRow(), 0).toString());
+
     }//GEN-LAST:event_tbl_processMouseClicked
 
     private void tbl_LoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_LoginMouseClicked

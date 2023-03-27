@@ -1,15 +1,71 @@
 package librarysystem_oto;
 
-
+import java.sql.*;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import java.sql.ResultSet;
+import javax.swing.RowFilter;
+import javax.swing.table.TableRowSorter;
 
 public class UserForm extends javax.swing.JFrame {
 
     public UserForm() {
         initComponents();
-        
+        PopulateTable();
     }
 
+    DefaultTableModel model;
 
+    public void PopulateTable() {
+        model = (DefaultTableModel) table_user.getModel();
+        model.setRowCount(0);
+
+        try {
+            ArrayList<UserManager> user = getUserManager();
+            for (UserManager users : user) {
+                Object[] row = {users.getUserID(), users.getUserName(),
+                    users.getUserLastName()};
+
+                model.addRow(row);
+            }
+        } catch (Exception exception) {
+
+        }
+
+    }
+
+    public ArrayList<UserManager> getUserManager() throws SQLException {
+        Connection connection = null;
+        dbHelper helper = new dbHelper();
+        Statement statement = null;
+        ResultSet resultSet;
+
+        ArrayList<UserManager> user = null;
+
+        try {
+            connection = helper.getConnection();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM library_systemdb.users;");
+
+            user = new ArrayList<UserManager>();
+
+            while (resultSet.next()) {
+                user.add(new UserManager(resultSet.getInt("UserID"),
+                        resultSet.getString("UserName"),
+                        resultSet.getString("UserLastName"),
+                        resultSet.getString("UserPassword")));
+
+            }
+        } catch (SQLException exception) {
+            helper.showErrorMessage(exception);
+        } finally {
+            statement.close();
+            connection.close();
+        }
+
+        return user;
+
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -299,15 +355,20 @@ public class UserForm extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_UserSearchActionPerformed
 
     private void txt_UserSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_UserSearchKeyReleased
-
+        String search = txt_UserSearch.getText();
+        TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<>(model);
+        table_user.setRowSorter(tableRowSorter);
+        tableRowSorter.setRowFilter(RowFilter.regexFilter(search));
     }//GEN-LAST:event_txt_UserSearchKeyReleased
 
     private void btnHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHomeActionPerformed
-
+        HomePageForm home = new HomePageForm();
+        home.setVisible(true);
+        dispose();
     }//GEN-LAST:event_btnHomeActionPerformed
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
-       
+        System.exit(0);
     }//GEN-LAST:event_btnExitActionPerformed
 
     /**

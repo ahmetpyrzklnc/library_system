@@ -1,15 +1,156 @@
 package librarysystem_oto;
 
-
+import java.sql.*;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 public class StudentsForm extends javax.swing.JFrame {
 
     public StudentsForm() {
         initComponents();
-       
+        PopulateTable();
     }
 
+    DefaultTableModel model;
 
+    public void PopulateTable() {
+        model = (DefaultTableModel) tbl_Students.getModel();
+        model.setRowCount(0);
+
+        try {
+            ArrayList<StudentManager> student = getStudentManager();
+            for (StudentManager students : student) {
+                Object[] row = {students.getStudentID(), students.getStudentName(),
+                    students.getStudentLastName(), students.getStudentGender(),
+                    students.getStudentBirtday(), students.getStudentPoint()};
+
+                model.addRow(row);
+            }
+        } catch (Exception exception) {
+
+        }
+
+    }
+
+    public ArrayList<StudentManager> getStudentManager() throws SQLException {
+        Connection connection = null;
+        dbHelper helper = new dbHelper();
+        Statement statement = null;
+        ResultSet resultSet;
+
+        ArrayList<StudentManager> student = null;
+
+        try {
+            connection = helper.getConnection();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM library_systemdb.students;");
+
+            student = new ArrayList<StudentManager>();
+
+            while (resultSet.next()) {
+                student.add(new StudentManager(resultSet.getInt("StudentID"),
+                        resultSet.getString("StudentName"), resultSet.getString("StudentLastname"),
+                        resultSet.getString("StudentGender"), resultSet.getObject("StudentBirthday"),
+                        resultSet.getInt("StudentPoint")));
+            }
+        } catch (SQLException exception) {
+            helper.showErrorMessage(exception);
+        } finally {
+            statement.close();
+            connection.close();
+        }
+
+        return student;
+
+    }
+
+    public void Insert() throws SQLException {
+        Connection connection = null;
+        dbHelper helper = new dbHelper();
+        PreparedStatement statement = null;
+
+        try {
+            connection = helper.getConnection();
+            String sql = "INSERT INTO `library_systemdb`.`students` (`StudentName`, `StudentLastname`, `StudentGender`, `StudentBirthday`, `StudentPoint`)"
+                    + " VALUES (?,?,?,?,?);";
+
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, StudentName.getText());
+            statement.setString(2, StudentLastname.getText());
+            statement.setString(3, StudentGender.getText());
+            statement.setString(4, StudentBirtday.getText());
+            statement.setInt(5, Integer.valueOf(StudentPoint.getText()));
+
+            int result = statement.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Kayıt Başarıyla Oluşturuldu!");
+            PopulateTable();
+
+        } catch (SQLException exception) {
+            helper.showErrorMessage(exception);
+        } finally {
+            statement.close();
+            connection.close();
+        }
+    }
+
+    public void Update() throws SQLException {
+
+        String id, name, lastName, gender, birth, point;
+
+        id = StudentID.getText();
+        name = StudentName.getText();
+        lastName = StudentLastname.getText();
+        gender = StudentGender.getText();
+        birth = StudentBirtday.getText();
+        point = StudentPoint.getText();
+
+        Connection connection = null;
+        dbHelper helper = new dbHelper();
+        PreparedStatement statement = null;
+
+        try {
+            connection = helper.getConnection();
+            String sql = ("UPDATE `library_systemdb`.`students` SET `StudentName` = '" + name + "', `StudentLastname` = '" + lastName + "', `StudentGender` = '" + gender + "', `StudentBirthday` = '" + birth + "', `StudentPoint` = '" + point + "' WHERE (`StudentID` = '" + id + "');");
+            statement = connection.prepareStatement(sql);
+
+            int result = statement.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Kayıt Başarıyla Güncellendi!");
+            PopulateTable();
+        } catch (SQLException exception) {
+            helper.showErrorMessage(exception);
+        } finally {
+            statement.close();
+            connection.close();
+        }
+    }
+
+    public void Delete() throws SQLException {
+        String id;
+
+        id = StudentID.getText();
+        Connection connection = null;
+        dbHelper helper = new dbHelper();
+        PreparedStatement statement = null;
+
+        try {
+            connection = helper.getConnection();
+            String sql = ("DELETE FROM `library_systemdb`.`students` WHERE `StudentID` = '" + id + "'");
+            statement = connection.prepareStatement(sql);
+
+            int result = statement.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Kayıt Başarıyla Silindi!");
+            PopulateTable();
+
+        } catch (SQLException exception) {
+            helper.showErrorMessage(exception);
+        } finally {
+            statement.close();
+            connection.close();
+        }
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -473,16 +614,18 @@ public class StudentsForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
-        
+        System.exit(0);
     }//GEN-LAST:event_btnExitActionPerformed
 
     private void btnHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHomeActionPerformed
- 
+        HomePageForm home = new HomePageForm();
+        home.setVisible(true);
+        dispose();
 
     }//GEN-LAST:event_btnHomeActionPerformed
 
     private void txt_StudentSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_StudentSearchMouseClicked
-        
+        txt_StudentSearch.setText("");
     }//GEN-LAST:event_txt_StudentSearchMouseClicked
 
     private void txt_StudentSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_StudentSearchActionPerformed
@@ -490,19 +633,34 @@ public class StudentsForm extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_StudentSearchActionPerformed
 
     private void txt_StudentSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_StudentSearchKeyReleased
-
+        String search = txt_StudentSearch.getText();
+        TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<>(model);
+        tbl_Students.setRowSorter(tableRowSorter);
+        tableRowSorter.setRowFilter(RowFilter.regexFilter(search));
     }//GEN-LAST:event_txt_StudentSearchKeyReleased
 
     private void btn_Students_DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Students_DeleteActionPerformed
+        try {
+            Delete();
+        } catch (SQLException ex) {
 
+        }
     }//GEN-LAST:event_btn_Students_DeleteActionPerformed
 
     private void btn_Students_AddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Students_AddActionPerformed
+        try {
+            Insert();
+        } catch (SQLException ex) {
 
+        }
     }//GEN-LAST:event_btn_Students_AddActionPerformed
 
     private void btn_Students_UpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Students_UpdateActionPerformed
+        try {
+            Update();
+        } catch (SQLException ex) {
 
+        }
     }//GEN-LAST:event_btn_Students_UpdateActionPerformed
 
     private void StudentBirtdayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StudentBirtdayActionPerformed
@@ -510,33 +668,37 @@ public class StudentsForm extends javax.swing.JFrame {
     }//GEN-LAST:event_StudentBirtdayActionPerformed
 
     private void StudentIDMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_StudentIDMouseClicked
-        
+        StudentID.setText("");
     }//GEN-LAST:event_StudentIDMouseClicked
 
     private void StudentNameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_StudentNameMouseClicked
-        
+        StudentName.setText("");
     }//GEN-LAST:event_StudentNameMouseClicked
 
     private void StudentLastnameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_StudentLastnameMouseClicked
-        
+        StudentLastname.setText("");
     }//GEN-LAST:event_StudentLastnameMouseClicked
 
     private void StudentGenderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_StudentGenderMouseClicked
-       
+        StudentGender.setText("");
     }//GEN-LAST:event_StudentGenderMouseClicked
 
     private void StudentBirtdayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_StudentBirtdayMouseClicked
-       
+        StudentBirtday.setText("");
     }//GEN-LAST:event_StudentBirtdayMouseClicked
 
     private void StudentPointMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_StudentPointMouseClicked
-       
+        StudentPoint.setText("");
     }//GEN-LAST:event_StudentPointMouseClicked
 
     private void tbl_StudentsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_StudentsMouseClicked
- 
+        StudentID.setText(model.getValueAt(tbl_Students.getSelectedRow(), 0).toString());
+        StudentName.setText(model.getValueAt(tbl_Students.getSelectedRow(), 1).toString());
+        StudentLastname.setText(model.getValueAt(tbl_Students.getSelectedRow(), 2).toString());
+        StudentGender.setText(model.getValueAt(tbl_Students.getSelectedRow(), 3).toString());
+        StudentBirtday.setText(model.getValueAt(tbl_Students.getSelectedRow(), 4).toString());
+        StudentPoint.setText(model.getValueAt(tbl_Students.getSelectedRow(), 5).toString());
     }//GEN-LAST:event_tbl_StudentsMouseClicked
-
 
     public static void main(String args[]) {
 

@@ -1,14 +1,140 @@
-package librarysystem_oto; 
+package librarysystem_oto;
 
+import LibrarySystem.BookTypeManager;
+import LibrarySystem_oto.HomePageForm;
+import java.util.ArrayList;
+import java.sql.*;
+import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 public class BookTypeForm extends javax.swing.JFrame {
 
-
     public BookTypeForm() {
         initComponents();
-        
+        PopulateTable();
     }
-    
+
+    DefaultTableModel model;
+
+    public void PopulateTable() {
+        model = (DefaultTableModel) tbl_BookType.getModel();
+        model.setRowCount(0);
+
+        try {
+            ArrayList<BookTypeManager> booktype = getBookTypeManager();
+            for (BookTypeManager booktypes : booktype) {
+                Object[] row = {booktypes.getBookTypeID(), booktypes.getBookTypeName()};
+
+                model.addRow(row);
+            }
+        } catch (Exception exception) {
+
+        }
+
+    }
+
+    public ArrayList<BookTypeManager> getBookTypeManager() throws SQLException {
+        Connection connection = null;
+        dbHelper helper = new dbHelper();
+        Statement statement = null;
+        ResultSet resultSet;
+
+        ArrayList<BookTypeManager> booktype = null;
+
+        try {
+            connection = helper.getConnection();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM library_systemdb.booktype");
+
+            booktype = new ArrayList<BookTypeManager>();
+
+            while (resultSet.next()) {
+                booktype.add(new BookTypeManager(resultSet.getInt("BookTypeID"), resultSet.getString("BookTypeName")));
+            }
+        } catch (SQLException exception) {
+            helper.showErrorMessage(exception);
+        } finally {
+            statement.close();
+            connection.close();
+        }
+
+        return booktype;
+    }
+
+    public void Insert() throws SQLException {
+        Connection connection = null;
+        dbHelper helper = new dbHelper();
+        PreparedStatement statement = null;
+
+        try {
+            connection = helper.getConnection();
+            String sql = "INSERT INTO `library_systemdb`.`booktype` (`BookTypeName`) VALUES (?);";
+
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, BookTypeName.getText());
+
+            int result = statement.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Kayıt Başarıyla Oluşturuldu!");
+            PopulateTable();
+        } catch (SQLException exception) {
+            helper.showErrorMessage(exception);
+        } finally {
+            statement.close();
+            connection.close();
+        }
+    }
+
+    public void Update() throws SQLException {
+        String id, name;
+
+        id = BookTypeID.getText();
+        name = BookTypeName.getText();
+
+        Connection connection = null;
+        dbHelper helper = new dbHelper();
+        PreparedStatement statement = null;
+
+        try {
+            connection = helper.getConnection();
+            String sql = ("UPDATE `library_systemdb`.`booktype` SET `BookTypeName` = '" + name + "' WHERE (`BookTypeID` = '" + id + "');");
+            statement = connection.prepareStatement(sql);
+
+            int result = statement.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Kayıt Başarıyla Güncellendi!");
+            PopulateTable();
+        } catch (SQLException exception) {
+            helper.showErrorMessage(exception);
+        } finally {
+            statement.close();
+            connection.close();
+        }
+    }
+
+    public void Delete() throws SQLException {
+        String id;
+
+        id = BookTypeID.getText();
+        Connection connection = null;
+        dbHelper helper = new dbHelper();
+        PreparedStatement statement = null;
+
+        try {
+            connection = helper.getConnection();
+            String sql = ("DELETE FROM `library_systemdb`.`booktype` WHERE `BookTypeID` = '" + id + "'");
+            statement = connection.prepareStatement(sql);
+
+            int result = statement.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Kayıt Başarıyla Silinmiştir.");
+            PopulateTable();
+        } catch (SQLException exception) {
+            helper.showErrorMessage(exception);
+        } finally {
+            statement.close();
+            connection.close();
+        }
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -362,19 +488,25 @@ public class BookTypeForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHomeActionPerformed
-
+        HomePageForm home = new HomePageForm();
+        home.setVisible(true);
+        dispose();
     }//GEN-LAST:event_btnHomeActionPerformed
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
-     
+        System.exit(0);
     }//GEN-LAST:event_btnExitActionPerformed
 
     private void btn_BookType_DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_BookType_DeleteActionPerformed
+        try {
+            Delete();
+        } catch (SQLException ex) {
 
+        }
     }//GEN-LAST:event_btn_BookType_DeleteActionPerformed
 
     private void txt_BookTypeSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_BookTypeSearchMouseClicked
-        
+        txt_BookTypeSearch.setText("");
     }//GEN-LAST:event_txt_BookTypeSearchMouseClicked
 
     private void txt_BookTypeSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_BookTypeSearchActionPerformed
@@ -382,30 +514,40 @@ public class BookTypeForm extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_BookTypeSearchActionPerformed
 
     private void txt_BookTypeSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_BookTypeSearchKeyReleased
-
+        String search = txt_BookTypeSearch.getText();
+        TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<>(model);
+        tbl_BookType.setRowSorter(tableRowSorter);
+        tableRowSorter.setRowFilter(RowFilter.regexFilter(search));
     }//GEN-LAST:event_txt_BookTypeSearchKeyReleased
 
     private void BookTypeIDMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BookTypeIDMouseClicked
-        
+        BookTypeID.setText("");
     }//GEN-LAST:event_BookTypeIDMouseClicked
 
     private void BookTypeNameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BookTypeNameMouseClicked
-       
+        BookTypeName.setText("");
     }//GEN-LAST:event_BookTypeNameMouseClicked
 
     private void tbl_BookTypeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_BookTypeMouseClicked
-
+        BookTypeID.setText(model.getValueAt(tbl_BookType.getSelectedRow(), 0).toString());
+        BookTypeName.setText(model.getValueAt(tbl_BookType.getSelectedRow(), 1).toString());
     }//GEN-LAST:event_tbl_BookTypeMouseClicked
 
     private void btn_BookType_AddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_BookType_AddActionPerformed
-
+        try {
+            Insert();
+        } catch (SQLException ex) {
+        }
     }//GEN-LAST:event_btn_BookType_AddActionPerformed
 
     private void btn_BookType_UpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_BookType_UpdateActionPerformed
+        try {
+            Update();
+        } catch (SQLException ex) {
 
+        }
     }//GEN-LAST:event_btn_BookType_UpdateActionPerformed
 
- 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

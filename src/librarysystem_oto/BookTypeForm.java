@@ -1,5 +1,4 @@
-
-package LibrarySystem_oto; 
+package librarysystem_oto; 
 
 
 public class BookTypeForm extends javax.swing.JFrame {

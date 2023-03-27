@@ -1,6 +1,5 @@
 package librarysystem_oto;
 
-import LibrarySystem.BookTypeManager;
 import java.util.ArrayList;
 import java.sql.*;
 import javax.swing.JOptionPane;

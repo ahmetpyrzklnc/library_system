@@ -1,4 +1,4 @@
-package LibrarySystem;
+package librarysystem_oto;
 
 public class BookTypeManager {
 

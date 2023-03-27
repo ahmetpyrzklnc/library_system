@@ -1,14 +1,413 @@
 package librarysystem_oto;
 
-
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 public class ProcessFormScreen extends javax.swing.JFrame {
 
     public ProcessFormScreen() {
         initComponents();
+        PopulateProcessTable();
+        PopulateBookTypeTable();
+        PopulateBooksTable();
+        PopulateStudentsTable();
+        PopulateWriterTable();
+        PopulateUserTable();
+    }
+
+    DefaultTableModel model;
+
+    public void PopulateProcessTable() {
+        model = (DefaultTableModel) tbl_process.getModel();
+        model.setRowCount(0);
+
+        try {
+            ArrayList<ProcessManager> process = getProcessManager();
+            for (ProcessManager processes : process) {
+                Object[] row = {processes.getProcessID(), processes.getUserID(), processes.getStudentID(),
+                    processes.getBookID(), processes.getWriterID(), processes.getBookTypeID(),
+                    processes.getReceivedDate(), processes.getGiveDate()};
+
+                model.addRow(row);
+            }
+        } catch (Exception e) {
+
+        }
 
     }
 
+    public ArrayList<ProcessManager> getProcessManager() throws SQLException {
+        Connection connection = null;
+        dbHelper helper = new dbHelper();
+        Statement statement = null;
+        ResultSet resultSet;
+
+        ArrayList<ProcessManager> process = null;
+
+        try {
+            connection = helper.getConnection();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM library_systemdb.process;");
+
+            process = new ArrayList<ProcessManager>();
+
+            while (resultSet.next()) {
+                process.add(new ProcessManager(resultSet.getInt("ProcessID"), resultSet.getInt("UserID"),
+                        resultSet.getInt("StudentID"),
+                        resultSet.getInt("BookID"),
+                        resultSet.getInt("WriterID"), resultSet.getInt("BookTypeID"),
+                        resultSet.getObject("ReceivedDate"), resultSet.getObject("GiveDate")));
+            }
+        } catch (SQLException exception) {
+            helper.showErrorMessage(exception);
+        } finally {
+            statement.close();
+            connection.close();
+        }
+        return process;
+    }
+
+    //-----
+    public void PopulateBookTypeTable() {
+        model = (DefaultTableModel) tbl_bookType.getModel();
+        model.setRowCount(0);
+
+        try {
+            ArrayList<BookTypeManager> booktype = getBookTypeManager();
+            for (BookTypeManager booktypes : booktype) {
+                Object[] row = {booktypes.getBookTypeID(), booktypes.getBookTypeName()};
+
+                model.addRow(row);
+            }
+        } catch (Exception exception) {
+
+        }
+
+    }
+
+    public ArrayList<BookTypeManager> getBookTypeManager() throws SQLException {
+        Connection connection = null;
+        dbHelper helper = new dbHelper();
+        Statement statement = null;
+        ResultSet resultSet;
+
+        ArrayList<BookTypeManager> booktype = null;
+
+        try {
+            connection = helper.getConnection();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM library_systemdb.booktype");
+
+            booktype = new ArrayList<BookTypeManager>();
+
+            while (resultSet.next()) {
+                booktype.add(new BookTypeManager(resultSet.getInt("BookTypeID"), resultSet.getString("BookTypeName")));
+            }
+        } catch (SQLException exception) {
+            helper.showErrorMessage(exception);
+        } finally {
+            statement.close();
+            connection.close();
+        }
+
+        return booktype;
+    }
+
+    //-----
+    public void PopulateBooksTable() {
+        model = (DefaultTableModel) tbl_book.getModel();
+        model.setRowCount(0);
+
+        try {
+            ArrayList<BooksManager> book = getBooksManager();
+            for (BooksManager books : book) {
+                Object[] row = {books.getBookID(), books.getBookName(),
+                    books.getBookNumber_of_Pages(), books.getBook_is_selected(),
+                    books.getWriterID(), books.getBookTypeID()};
+
+                model.addRow(row);
+
+            }
+        } catch (Exception exception) {
+
+        }
+
+    }
+
+    public ArrayList<BooksManager> getBooksManager() throws SQLException {
+        Connection connection = null;
+        dbHelper helper = new dbHelper();
+        Statement statement = null;
+        ResultSet resultSet;
+
+        ArrayList<BooksManager> books = null;
+
+        try {
+            connection = helper.getConnection();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM library_systemdb.books;");
+
+            books = new ArrayList<BooksManager>();
+
+            while (resultSet.next()) {
+                books.add(new BooksManager(resultSet.getInt("BookID"),
+                        resultSet.getString("BookName"), resultSet.getInt("BookNumber_of_Pages"),
+                        resultSet.getBoolean("Book_is_selected"), resultSet.getInt("WriterID"),
+                        resultSet.getInt("BookTypeID")));
+            }
+        } catch (SQLException exception) {
+            helper.showErrorMessage(exception);
+        } finally {
+            statement.close();
+            connection.close();
+        }
+
+        return books;
+    }
+
+    //-----
+    public void PopulateStudentsTable() {
+        model = (DefaultTableModel) tbl_Student.getModel();
+        model.setRowCount(0);
+
+        try {
+            ArrayList<StudentManager> student = getStudentManager();
+            for (StudentManager students : student) {
+                Object[] row = {students.getStudentID(), students.getStudentName(),
+                    students.getStudentLastName(), students.getStudentGender(),
+                    students.getStudentBirtday(), students.getStudentPoint()};
+
+                model.addRow(row);
+            }
+        } catch (Exception exception) {
+
+        }
+
+    }
+
+    public ArrayList<StudentManager> getStudentManager() throws SQLException {
+        Connection connection = null;
+        dbHelper helper = new dbHelper();
+        Statement statement = null;
+        ResultSet resultSet;
+
+        ArrayList<StudentManager> student = null;
+
+        try {
+            connection = helper.getConnection();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM library_systemdb.students;");
+
+            student = new ArrayList<StudentManager>();
+
+            while (resultSet.next()) {
+                student.add(new StudentManager(resultSet.getInt("StudentID"),
+                        resultSet.getString("StudentName"), resultSet.getString("StudentLastName"),
+                        resultSet.getString("StudentGender"), resultSet.getObject("StudentBirthday"),
+                        resultSet.getInt("StudentPoint")));
+            }
+        } catch (SQLException exception) {
+            helper.showErrorMessage(exception);
+        } finally {
+            statement.close();
+            connection.close();
+        }
+
+        return student;
+
+    }
+
+    //-----
+    public void PopulateWriterTable() {
+        model = (DefaultTableModel) tbl_Writer.getModel();
+        model.setRowCount(0);
+
+        try {
+            ArrayList<WriterManager> writer = getWriterManager();
+            for (WriterManager writers : writer) {
+                Object[] row = {writers.getWriterID(), writers.getWriterName(),
+                    writers.getWriterLastname()};
+
+                model.addRow(row);
+            }
+        } catch (Exception exception) {
+        }
+
+    }
+
+    public ArrayList<WriterManager> getWriterManager() throws SQLException {
+        Connection connection = null;
+        dbHelper helper = new dbHelper();
+        Statement statement = null;
+        ResultSet resultSet;
+
+        ArrayList<WriterManager> writer = null;
+
+        try {
+            connection = helper.getConnection();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM library_systemdb.writer;");
+
+            writer = new ArrayList<WriterManager>();
+
+            while (resultSet.next()) {
+                writer.add(new WriterManager(resultSet.getInt("WriterID"),
+                        resultSet.getString("WriterName"), resultSet.getString("WriterLastname")));
+            }
+
+        } catch (SQLException exception) {
+            helper.showErrorMessage(exception);
+        } finally {
+            statement.close();
+            connection.close();
+        }
+
+        return writer;
+    }
+
+    //---
+    public void PopulateUserTable() {
+        model = (DefaultTableModel) tbl_Login.getModel();
+        model.setRowCount(0);
+
+        try {
+            ArrayList<UserManager> user = getUserManager();
+            for (UserManager users : user) {
+                Object[] row = {users.getUserID(), users.getUserName(),
+                    users.getUserLastName()};
+
+                model.addRow(row);
+            }
+        } catch (Exception exception) {
+
+        }
+
+    }
+
+    public ArrayList<UserManager> getUserManager() throws SQLException {
+        Connection connection = null;
+        dbHelper helper = new dbHelper();
+        Statement statement = null;
+        ResultSet resultSet;
+
+        ArrayList<UserManager> user = null;
+
+        try {
+            connection = helper.getConnection();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM library_systemdb.users;");
+
+            user = new ArrayList<UserManager>();
+
+            while (resultSet.next()) {
+                user.add(new UserManager(resultSet.getInt("UserID"),
+                        resultSet.getString("UserName"),
+                        resultSet.getString("UserLastName"),
+                        resultSet.getString("UserPassword")));
+
+            }
+        } catch (SQLException exception) {
+            helper.showErrorMessage(exception);
+        } finally {
+            statement.close();
+            connection.close();
+        }
+
+        return user;
+
+    }
+
+    //------**************** CRUD WORKES *****************---------------//
+    public void Insert() throws SQLException {
+        Connection connection = null;
+        dbHelper helper = new dbHelper();
+        PreparedStatement statement = null;
+
+        try {
+            connection = helper.getConnection();
+            String sql = "INSERT INTO `library_systemdb`.`process` (`UserID`, `StudentID`, `BookID`, `WriterID`, `BookTypeID`, `ReceivedDate`, `GiveDate`)"
+                    + "VALUES (?,?,?,?,?,?,?);";
+
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, Process_LoginID.getText());
+            statement.setString(2, Process_StudentID.getText());
+            statement.setString(3, ProcessBookID.getText());
+            statement.setString(4, ProcessWriterID.getText());
+            statement.setString(5, Process_BookTypeID.getText());
+            statement.setString(6, Process_ReceivedDate.getText());
+            statement.setString(7, Process_GiveDate.getText());
+
+            int result = statement.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Kayıt Başarıyla Oluşturuldu!");
+            PopulateProcessTable();
+        } catch (SQLException exception) {
+            helper.showErrorMessage(exception);
+        } finally {
+            statement.close();
+            connection.close();
+        }
+    }
+
+    public void Update() throws SQLException {
+
+        String process_id, user_id, student_id, book_id, writer_id, bookType_id, received_date, give_date;
+
+        process_id = ProcessID.getText();
+        user_id = Process_LoginID.getText();
+        student_id = Process_StudentID.getText();
+        book_id = ProcessBookID.getText();
+        writer_id = ProcessWriterID.getText();
+        bookType_id = Process_BookTypeID.getText();
+        received_date = Process_ReceivedDate.getText();
+        give_date = Process_GiveDate.getText();
+
+        Connection connection = null;
+        dbHelper helper = new dbHelper();
+        PreparedStatement statement = null;
+
+        try {
+            connection = helper.getConnection();
+            String sql = ("UPDATE `library_systemdb`.`process` SET `UserID` = '" + user_id + "', `StudentID` = '" + student_id + "', `BookID` = '" + book_id + "',`WriterID` = '" + writer_id + "', `BookTypeID` = '" + bookType_id + "', `ReceivedDate` = '" + received_date + "', `GiveDate` = '" + give_date + "' WHERE (`ProcessID` = '" + process_id + "');");
+            statement = connection.prepareStatement(sql);
+
+            int result = statement.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Kayıt Başarıyla Güncellendi!");
+            PopulateProcessTable();
+        } catch (SQLException exception) {
+            helper.showErrorMessage(exception);
+        } finally {
+            statement.close();
+            connection.close();
+        }
+    }
+
+    public void Delete() throws SQLException {
+        String Process_id;
+
+        Process_id = ProcessID.getText();
+        Connection connection = null;
+        dbHelper helper = new dbHelper();
+        PreparedStatement statement = null;
+
+        try {
+            connection = helper.getConnection();
+            String sql = ("DELETE FROM `library_systemdb`.`process` WHERE (`ProcessID` = '" + Process_id + "');");
+            PopulateProcessTable();
+        } catch (SQLException exception) {
+            helper.showErrorMessage(exception);
+        } finally {
+            statement.close();
+            connection.close();
+        }
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -902,23 +1301,35 @@ public class ProcessFormScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_processSearchActionPerformed
 
     private void btn_Process_AddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Process_AddActionPerformed
+        try {
+            Insert();
+        } catch (SQLException ex) {
 
+        }
     }//GEN-LAST:event_btn_Process_AddActionPerformed
 
     private void btn_Process_UpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Process_UpdateActionPerformed
+        try {
+            Insert();
+        } catch (SQLException ex) {
 
+        }
     }//GEN-LAST:event_btn_Process_UpdateActionPerformed
 
     private void btn_Process_DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Process_DeleteActionPerformed
+        try {
+            Delete();
+        } catch (SQLException ex) {
 
+        }
     }//GEN-LAST:event_btn_Process_DeleteActionPerformed
 
     private void ProcessIDMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ProcessIDMouseClicked
-        
+        ProcessID.setText("");
     }//GEN-LAST:event_ProcessIDMouseClicked
 
     private void Process_LoginIDMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Process_LoginIDMouseClicked
-        
+        Process_LoginID.setText("");
     }//GEN-LAST:event_Process_LoginIDMouseClicked
 
     private void ProcessBookIDMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ProcessBookIDMouseClicked
@@ -946,12 +1357,14 @@ public class ProcessFormScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_Process_StudentIDMouseClicked
 
     private void btnHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHomeActionPerformed
-
+        HomePageForm home = new HomePageForm();
+        home.setVisible(true);
+        dispose();
 
     }//GEN-LAST:event_btnHomeActionPerformed
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
-        
+        System.exit(0);
     }//GEN-LAST:event_btnExitActionPerformed
 
     private void Process_BookTypeIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Process_BookTypeIDActionPerformed
@@ -983,75 +1396,93 @@ public class ProcessFormScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_BookTypeSearchActionPerformed
 
     private void txt_BookSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_BookSearchMouseClicked
-       
+        txt_BookSearch.setText("");
     }//GEN-LAST:event_txt_BookSearchMouseClicked
 
     private void txt_BookTypeSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_BookTypeSearchMouseClicked
-        
+        txt_BookTypeSearch.setText("");
     }//GEN-LAST:event_txt_BookTypeSearchMouseClicked
 
     private void txt_StudentSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_StudentSearchMouseClicked
-        
+        txt_StudentSearch.setText("");
     }//GEN-LAST:event_txt_StudentSearchMouseClicked
 
     private void txt_WriterSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_WriterSearchMouseClicked
-        
+        txt_WriterSearch.setText("");
     }//GEN-LAST:event_txt_WriterSearchMouseClicked
 
     private void txt_LoginSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_LoginSearchMouseClicked
-        
+        txt_LoginSearch.setText("");
     }//GEN-LAST:event_txt_LoginSearchMouseClicked
 
     private void txt_processSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_processSearchMouseClicked
-        
+        txt_processSearch.setText("");
     }//GEN-LAST:event_txt_processSearchMouseClicked
 
     private void tbl_processMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_processMouseClicked
-        
+        ProcessID.setText(model.getValueAt(tbl_process.getSelectedRow(), 0).toString());
     }//GEN-LAST:event_tbl_processMouseClicked
 
     private void tbl_LoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_LoginMouseClicked
-        
+        Process_LoginID.setText(model.getValueAt(tbl_Login.getSelectedRow(), 0).toString());
     }//GEN-LAST:event_tbl_LoginMouseClicked
 
     private void tbl_WriterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_WriterMouseClicked
-        
+        ProcessWriterID.setText(model.getValueAt(tbl_Writer.getSelectedRow(), 0).toString());
     }//GEN-LAST:event_tbl_WriterMouseClicked
 
     private void tbl_bookTypeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_bookTypeMouseClicked
-        
+        Process_BookTypeID.setText(model.getValueAt(tbl_bookType.getSelectedRow(), 0).toString());
     }//GEN-LAST:event_tbl_bookTypeMouseClicked
 
     private void tbl_bookMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_bookMouseClicked
-        
+        ProcessBookID.setText(model.getValueAt(tbl_book.getSelectedRow(), 0).toString());
     }//GEN-LAST:event_tbl_bookMouseClicked
 
     private void tbl_StudentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_StudentMouseClicked
-        
+        Process_StudentID.setText(model.getValueAt(tbl_Student.getSelectedRow(), 0).toString());
     }//GEN-LAST:event_tbl_StudentMouseClicked
 
     private void txt_BookSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_BookSearchKeyReleased
-
+        String search = txt_BookSearch.getText();
+        TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<>(model);
+        tbl_book.setRowSorter(tableRowSorter);
+        tableRowSorter.setRowFilter(RowFilter.regexFilter(search));
     }//GEN-LAST:event_txt_BookSearchKeyReleased
 
     private void txt_BookTypeSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_BookTypeSearchKeyReleased
-
+        String search = txt_BookTypeSearch.getText();
+        TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<>(model);
+        tbl_bookType.setRowSorter(tableRowSorter);
+        tableRowSorter.setRowFilter(RowFilter.regexFilter(search));
     }//GEN-LAST:event_txt_BookTypeSearchKeyReleased
 
     private void txt_StudentSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_StudentSearchKeyReleased
-
+        String search = txt_StudentSearch.getText();
+        TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<>(model);
+        tbl_Student.setRowSorter(tableRowSorter);
+        tableRowSorter.setRowFilter(RowFilter.regexFilter(search));
     }//GEN-LAST:event_txt_StudentSearchKeyReleased
 
     private void txt_WriterSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_WriterSearchKeyReleased
-
+        String search = txt_WriterSearch.getText();
+        TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<>(model);
+        tbl_Writer.setRowSorter(tableRowSorter);
+        tableRowSorter.setRowFilter(RowFilter.regexFilter(search));
     }//GEN-LAST:event_txt_WriterSearchKeyReleased
 
     private void txt_LoginSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_LoginSearchKeyReleased
-
+        String search = txt_LoginSearch.getText();
+        TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<>(model);
+        tbl_Login.setRowSorter(tableRowSorter);
+        tableRowSorter.setRowFilter(RowFilter.regexFilter(search));
     }//GEN-LAST:event_txt_LoginSearchKeyReleased
 
     private void txt_processSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_processSearchKeyReleased
-
+        String search = txt_processSearch.getText();
+        TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<>(model);
+        tbl_process.setRowSorter(tableRowSorter);
+        tableRowSorter.setRowFilter(RowFilter.regexFilter(search));
     }//GEN-LAST:event_txt_processSearchKeyReleased
 
     public static void main(String args[]) {

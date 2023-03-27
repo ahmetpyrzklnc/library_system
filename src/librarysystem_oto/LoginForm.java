@@ -11,37 +11,7 @@ public class LoginForm extends javax.swing.JFrame {
         initComponents();
     }
 
-    public void Login() throws SQLException {
-        Connection connection = null;
-        dbHelper helper = new dbHelper();
-        PreparedStatement statement = null;
-        ResultSet resultSet;
 
-        try {
-            connection = helper.getConnection();
-            String sql = "SELECT * FROM library_systemdb.users where `UserName` = ? and `UserPassword` = ?;";
-
-            statement = connection.prepareStatement(sql);
-            statement.setString(1, user_text_name.getText());
-            statement.setString(2, user_text_password.getText());
-
-            resultSet = statement.executeQuery();
-
-            if (resultSet.next()) {
-                HomePageForm home = new HomePageForm();
-                home.setVisible(true); // düzenlenecek
-                dispose(); // eski pencereyi kapatır 
-            } else {
-                JOptionPane.showMessageDialog(null, "Kullanıcı Adınız veya Şifreniz Yanlıştır!");
-            }
-        } catch (Exception exception) {
-            helper.showErrorMessage((SQLException) exception);
-        } finally {
-            statement.close();
-            connection.close();
-        }
-
-    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -277,25 +247,15 @@ public class LoginForm extends javax.swing.JFrame {
     }//GEN-LAST:event_kayit_buttonActionPerformed
 
     private void btn_RegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RegisterActionPerformed
-        RegisterForm register = new RegisterForm();
-        register.setVisible(true);
-        dispose();
+
     }//GEN-LAST:event_btn_RegisterActionPerformed
 
     private void btn_entryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_entryActionPerformed
-        try {
-            Login();
-        } catch (SQLException ex) {
 
-        }
     }//GEN-LAST:event_btn_entryActionPerformed
 
     private void checkbox_passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkbox_passwordActionPerformed
-        if (checkbox_password.isSelected()) {
-            user_text_password.setEchoChar((char) 0);
-        } else {
-            user_text_password.setEchoChar('*');
-        }
+
     }//GEN-LAST:event_checkbox_passwordActionPerformed
 
     private void user_text_passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_user_text_passwordActionPerformed

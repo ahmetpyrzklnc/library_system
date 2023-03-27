@@ -299,8 +299,7 @@ public class RegisterForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_registerActionPerformed
 
     private void btn_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_loginActionPerformed
-        LoginForm form = new LoginForm();
-        form.setVisible(true);
+
     }//GEN-LAST:event_btn_loginActionPerformed
 
     private void user_TextPassword_registerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_user_TextPassword_registerActionPerformed

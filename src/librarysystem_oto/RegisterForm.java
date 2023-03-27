@@ -1,9 +1,4 @@
-package LibrarySystem_oto;
-
-import librarysystem_oto.LoginForm;
-
-
-
+package librarysystem_oto;
 
 
 public class RegisterForm extends javax.swing.JFrame {

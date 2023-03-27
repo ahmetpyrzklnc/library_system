@@ -1,5 +1,4 @@
-package LibrarySystem_oto;
-
+package librarysystem_oto;
 
 public class HomePageForm extends javax.swing.JFrame {
 
@@ -207,39 +206,48 @@ public class HomePageForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUserActionPerformed
-
+        UserForm user = new UserForm();
+        user.setVisible(true);
+        dispose();
     }//GEN-LAST:event_btnUserActionPerformed
 
     private void btnexitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnexitActionPerformed
-      
+        System.exit(0);
     }//GEN-LAST:event_btnexitActionPerformed
 
     private void btnProcessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcessActionPerformed
+        ProcessForm process = new ProcessForm();
+        process.setVisible(true);
+        dispose();
 
-       
     }//GEN-LAST:event_btnProcessActionPerformed
 
     private void btnStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStudentActionPerformed
-
+        StudentsForm students = new StudentsForm();
+        students.setVisible(true);
+        dispose();
     }//GEN-LAST:event_btnStudentActionPerformed
 
     private void btnBooksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBooksActionPerformed
-
+        BooksForm books = new BooksForm();
+        books.setVisible(true);
+        dispose();
     }//GEN-LAST:event_btnBooksActionPerformed
 
     private void btnBookTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBookTypeActionPerformed
- 
+        BookTypeForm bookType = new BookTypeForm();
+        bookType.setVisible(true);
+        dispose();
     }//GEN-LAST:event_btnBookTypeActionPerformed
 
     private void btnWriterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnWriterActionPerformed
-
+        WriterForm writer = new WriterForm();
+        writer.setVisible(true);
+        dispose();
     }//GEN-LAST:event_btnWriterActionPerformed
 
- 
     public static void main(String args[]) {
- 
 
-        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new HomePageForm().setVisible(true);

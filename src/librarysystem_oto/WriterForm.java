@@ -1,5 +1,4 @@
-package LibrarySystem_oto;
-
+package librarysystem_oto;
 
 
 public class WriterForm extends javax.swing.JFrame {

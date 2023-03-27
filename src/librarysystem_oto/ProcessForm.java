@@ -1,15 +1,69 @@
 package librarysystem_oto;
 
-
+import java.sql.*;
+import java.util.ArrayList;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 public class ProcessForm extends javax.swing.JFrame {
 
     public ProcessForm() {
         initComponents();
-        
+        PopulateTable();
     }
 
+    DefaultTableModel model;
 
+    public void PopulateTable() {
+        model = (DefaultTableModel) tbl_Process.getModel();
+        model.setRowCount(0);
+
+        try {
+            ArrayList<ProcessManager> process = getProcessManager();
+            for (ProcessManager processes : process) {
+                Object[] row = {processes.getProcessID(), processes.getUserID(), processes.getStudentID(),
+                    processes.getBookID(), processes.getWriterID(), processes.getBookTypeID(),
+                    processes.getReceivedDate(), processes.getGiveDate()};
+
+                model.addRow(row);
+            }
+        } catch (Exception e) {
+
+        }
+
+    }
+
+    public ArrayList<ProcessManager> getProcessManager() throws SQLException {
+        Connection connection = null;
+        dbHelper helper = new dbHelper();
+        Statement statement = null;
+        ResultSet resultSet;
+
+        ArrayList<ProcessManager> process = null;
+
+        try {
+            connection = helper.getConnection();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM library_systemdb.process;");
+
+            process = new ArrayList<ProcessManager>();
+
+            while (resultSet.next()) {
+                process.add(new ProcessManager(resultSet.getInt("ProcessID"), resultSet.getInt("UserID"),
+                        resultSet.getInt("StudentID"),
+                        resultSet.getInt("BookID"),
+                        resultSet.getInt("WriterID"), resultSet.getInt("BookTypeID"),
+                        resultSet.getObject("ReceivedDate"), resultSet.getObject("GiveDate")));
+            }
+        } catch (SQLException exception) {
+            helper.showErrorMessage(exception);
+        } finally {
+            statement.close();
+            connection.close();
+        }
+        return process;
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -313,7 +367,7 @@ public class ProcessForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txt_ProcessSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_ProcessSearchMouseClicked
-        
+        txt_ProcessSearch.setText("");
     }//GEN-LAST:event_txt_ProcessSearchMouseClicked
 
     private void txt_ProcessSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_ProcessSearchActionPerformed
@@ -321,15 +375,20 @@ public class ProcessForm extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_ProcessSearchActionPerformed
 
     private void txt_ProcessSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_ProcessSearchKeyReleased
-
+        String search = txt_ProcessSearch.getText();
+        TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<>(model);
+        tbl_Process.setRowSorter(tableRowSorter);
+        tableRowSorter.setRowFilter(RowFilter.regexFilter(search));
     }//GEN-LAST:event_txt_ProcessSearchKeyReleased
 
     private void btnHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHomeActionPerformed
-
+        HomePageForm home = new HomePageForm();
+        home.setVisible(true);
+        dispose();
     }//GEN-LAST:event_btnHomeActionPerformed
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
-        
+        System.exit(0);
     }//GEN-LAST:event_btnExitActionPerformed
 
     private void tbl_ProcessMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_ProcessMouseClicked
@@ -337,7 +396,9 @@ public class ProcessForm extends javax.swing.JFrame {
     }//GEN-LAST:event_tbl_ProcessMouseClicked
 
     private void btn_ProcessScreenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ProcessScreenActionPerformed
-
+        ProcessFormScreen form = new ProcessFormScreen();
+        form.setVisible(true);
+        dispose();
     }//GEN-LAST:event_btn_ProcessScreenActionPerformed
 
     public static void main(String args[]) {

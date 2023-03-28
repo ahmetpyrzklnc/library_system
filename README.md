@@ -287,7 +287,7 @@ Kısaca bu şekilde özetleyebiliriz.
 Kısaca bu şekilde özetleyebiliriz.
 
 ---
-# Veritabanı
+# SQL SERVER Veritabanı
 
 **Veritabanı Bilgileri:**
 

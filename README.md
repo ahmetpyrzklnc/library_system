@@ -1,12 +1,12 @@
 # Kütüphane Sistem Otomasyonu
 
-> ## Genel Durum ve Görünüş
+ # | Genel Durum ve Görünüş
 
 **Bu proje orta seviye zorlukta olup, ilişkisel veritabanıyla birlikte temel işlemlerle yapılmış bir kütüphane yönetim sistemi projesidir.**
 
 ----
 
-> <h3>Bu projede kullandığım teknolojiler:</h3>
+ <h3>| Bu projede kullandığım teknolojiler:</h3>
 
 <br>
 
@@ -28,7 +28,7 @@
 
 ----
 
-> **Clone this project this:**
+| **Clone this project this:**
 
 ```shell
 
@@ -37,7 +37,7 @@ git clone https://github.com/ahmetpyrzklnc/library_system.git
 ```
 ----
 
-> ***Doğrulama Ekranı Tasarım Görüntüsü ve Fonksiyon İçerikleri***
+| ***Doğrulama Ekranı Tasarım Görüntüsü ve Fonksiyon İçerikleri***
 
 <img src="https://raw.githubusercontent.com/ahmetpyrzklnc/library_system/main/images/login.png"></a>
 
@@ -52,9 +52,9 @@ git clone https://github.com/ahmetpyrzklnc/library_system.git
 - Eğer ki kullanıcı sistemde kayıtlı değilse _Kayıt ol_ Butonuna tıklayarak sisteme kayıt bilgilerini girebileceği ekrana yönlendirilir.
 
 ----
-> ***Kayıt Ekranı Görüntüsü ve İşlevleri***
+ ***Kayıt Ekranı Görüntüsü ve İşlevleri***
 
-[![register.png](https://i.postimg.cc/g2wxb5DL/register.png)](https://postimg.cc/sMrjpTb3)
+<img src="https://raw.githubusercontent.com/ahmetpyrzklnc/library_system/main/images/register.png"></a>
 
 - Kullanıcının adı, soyadı ve şifresini alarak sisteme kaydını kolaylaştırmasını sağlayan bir ekrandır. 
 <br>
@@ -68,7 +68,7 @@ git clone https://github.com/ahmetpyrzklnc/library_system.git
 
 ----
 
-> ***Ana Sayfa Ekran Görüntüsü ve İşlevleri***
+ ***Ana Sayfa Ekran Görüntüsü ve İşlevleri***
 
 [![homepage.png](https://i.postimg.cc/90M7RfGJ/homepage.png)](https://postimg.cc/Ppgx0TVw)
 

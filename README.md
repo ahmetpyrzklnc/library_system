@@ -41,7 +41,7 @@ git clone https://github.com/ahmetpyrzklnc/library_system.git
 
 <img src="https://raw.githubusercontent.com/ahmetpyrzklnc/library_system/main/images/login.png"></a>
 
-> - The user is prompted to enter their username and password in _JTextField_ fields. The information is then used to send a WHERE query to the database for authentication.
+> - The user is prompted to enter their username and password in _JTextField_ fields. The information is then used to send a 'WHERE' query to the database for authentication.
 <br>
 
 - For security purposes, a _JCheckBox_ can be used to provide the option of either hiding or displaying the password in the password _JTextField._
@@ -56,23 +56,23 @@ git clone https://github.com/ahmetpyrzklnc/library_system.git
 - If the user is not registered in the system, they can be directed to a registration screen by clicking on the "_Register_" button, where they can enter their registration information.
 
 ----
-| ***Kayıt Ekranı Görüntüsü ve İşlevleri***
+| ***Registration Screen Design and Functions***
 
 <img src="https://raw.githubusercontent.com/ahmetpyrzklnc/library_system/main/images/register.png"></a>
 
-> - Kullanıcının adı, soyadı ve şifresini alarak sisteme kaydını kolaylaştırmasını sağlayan bir ekrandır. 
+> - The registration screen is designed to facilitate the user's registration into the system by capturing their name, surname, and password. 
 <br>
 
-- Güvenliği arttırabilmek için bir _captcha_ fonskiyonu tanımlanarak kullanıcının _Jlabel_ üzerinde belirtilen rastgele karakterlerle doğrulama yapılır.
+- To enhance security, a captcha function can be implemented to verify the user using randomly generated characters displayed on a JLabel.
 <br>
 
-- Yine aynı şekilde güvenliği arttırabilmek için bir _Jcheckbox koyularak şifre görüntülenmesi ve gizlenmesi sağlanmıştır.
+- To further enhance security, a JCheckBox can be added to allow the user to toggle password visibility, enabling them to show or hide the entered password.
 <br>
 
-- Kullanıcı _Kayıt ol_ butonuna basarak veritabanına yeni kayıtlar gönderilmiş olup, _JOptionPane_ açılarak kullanıcı bilgilendirilmiş olur.
+- When the user clicks the "Register" button, the entered registration details are sent to the database as new records, and a JOptionPane is opened to notify the user about the successful registration.
 <br> 
 
--  _Giriş Yap_ Butonuna tıklanarak ise Kullanıcı tekrardan giriş ekranına yönlendirilmiş olur.
+-  When the user clicks the "Login" button, they are redirected back to the login screen.
 
 ----
 

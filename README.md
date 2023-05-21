@@ -76,57 +76,56 @@ git clone https://github.com/ahmetpyrzklnc/library_system.git
 
 ----
 
- | ***Ana Sayfa Ekran Görüntüsü ve İşlevleri***
+ | ***Main Page Screen Design and Functions***
 
 <img src="https://raw.githubusercontent.com/ahmetpyrzklnc/library_system/main/images/home.png"></a>
 
-> - Birden fazla fonksiyonu içerisinde barındıran, Ana sayfa ekranı bir yönlendirme görevi görür.
+> - The main page screen serves as a navigation hub, containing multiple functions and features.
 <br>
 
-- Kullanıcıyı ana sayfa ekranından istediği işlemi yapabilmek amacıyla, biri otomasyondan çıkış olmasıyla toplamda 7 farklı butonla karşılaştırır.
+- The main page screen presents the user with 7 different buttons, allowing them to perform various actions, including one for logging out of the automation system.
 <br>
 
-- Kullanıcıyı kendisi de dahil olmak üzere ve otomasyonda kimlerin yetkilendirildiğini görmek istiyorsa _Kullanıcı İşlemleri_ butonuna tıklayarak gerekli sayfanın açılmasına olanak sağlar.
+- If the user wants to see who is authorized in the automation system, including themselves, they can click on the "User Operations" button to open the necessary page.
 <br>
 
-- Kullanıcıyı otomasyonda kayıtlı olan _öğrenci_ listesini görüntülemek hemde gerekli ekleme, silme, güncelleme işlemlerini yapabilmesi açısından gerekli sayfaya yönlendirilmiş olur.
+- The user is directed to the necessary page where they can view the list of registered students in the automation system and perform the required operations such as adding, deleting, and updating student records.
 <br>
 
-- Kullanıcıyı otomasyonda oluşturulan geçmiş kayıtları göstermek istiyorsa gerekli sayfaya ulaştırmak için yönlendirme yapabilir.
+- If the user wants to view the history of records created in the automation system, they can be redirected to the appropriate page to access that information.
 <br>
 
-- Kullanıcıyı kütüphane otomasyonu içerisinde tanımlanan kitap kayıtlarını gösterebileceği bir sayfaya yönlendirme yapabilir.
+- The user can be redirected to a page where they can view the book records defined within the library automation system.
 <br>
 
-- Kullanıcıyı kütüphane içerisinde bulunan kitapların türlerinin listesini gösterebileceği ve işlemler yapabileceği bir sayfaya yönlendirebilir.
+- The user can be directed to a page where they can view the list of genres of books available in the library and perform related operations.
 <br>
 
-- Kullanıcıyı kütüphane içerisinde bulunan kitapların yazarlarının lsitesini gösterebileceğini ve işlemler yapabileceği sayfaya yönlendirebilir.
+- The user can be directed to a page where they can view the list of authors of books available in the library and perform related operations.
 <br>
 
-- Son olarak otomasyondan çıkış yapılmasına olanak sağlayabilir.
+- Finally, an option can be provided for the user to log out from the automation system, allowing them to exit the application.
 
 ----
 
- | ***Kullanıcı İşlemleri Ekranı Görüntüsü ve İşlevleri***
+ | ***User Operations Screen Design and Functions***
 
 <img src="https://raw.githubusercontent.com/ahmetpyrzklnc/library_system/main/images/kullanici_islemler.png"></a>
 
-> - Anlaşılabilir, göze hitap eden bir tasarımla sistemde yetkilendirilmiş kullanıcılarla ilgili bilgilerin barındırıldığı bir ekrandır.
-
-*İşlevleri:*
+> - The User Operations screen is designed to be user-friendly and visually appealing, providing information about authorized users in the system.
 
 
-- ***Listeleme:*** Bu sayfa sadece listeleme işlemi yapmaktadır!
+
+- ***Listing:*** This page is solely for the purpose of listing operations.
 <br>
 
-- ***Ana Sayfa:*** Anasayfaya yönlendirme yapmaktadır.
+- ***Home Page*** It redirects to the homepage.
 <br>
 
-- ***Çıkış:*** Sistemi kapatır ve çıkış yapmasına olanak sağlar.
+- ***Logout:*** It closes the system and allows for logging out.
 <br>
 
-Kısaca fonksiyonları bu kadardır.
+These are the functions in brief.
 
 ----
 

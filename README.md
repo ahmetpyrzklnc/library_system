@@ -1,12 +1,12 @@
-# Kütüphane Sistem Otomasyonu
+# Library System Automation
 
- # | Genel Durum ve Görünüş
+ # | General Status and Appearance
 
-**Bu proje orta seviye zorlukta olup, ilişkisel veritabanıyla birlikte temel işlemlerle yapılmış bir kütüphane yönetim sistemi projesidir.**
+**This project is of medium difficulty and is a library management system project that is built with basic operations along with a relational database.**
 
 ----
 
- <h3>| Bu projede kullandığım teknolojiler:</h3>
+ <h3>| The technologies I used in this project are:</h3>
 
 <br>
 
@@ -37,23 +37,23 @@ git clone https://github.com/ahmetpyrzklnc/library_system.git
 ```
 ----
 
-| ***Doğrulama Ekranı Tasarım Görüntüsü ve Fonksiyon İçerikleri***
+| ***Authentication Screen Design and Function Contents***
 
 <img src="https://raw.githubusercontent.com/ahmetpyrzklnc/library_system/main/images/login.png"></a>
 
-> - Kullanıcıdan _Kullanıcı adı JTextField_ ve _Kullanıcı şifresi JTextField_  bilgilerini alarak veritabanına _where_ sorgusu göndererek doğrulama yaptırılır.
+> - The user is prompted to enter their username and password in _JTextField_ fields. The information is then used to send a WHERE query to the database for authentication.
 <br>
 
-- Güvenlik açısından _şifre texfieldını_ gizlemek adına bir _JcheckBox_ ile ister gizli bir halde, ister açık bir halde şifre saklanması sağlanabilir.
+- For security purposes, a _JCheckBox_ can be used to provide the option of either hiding or displaying the password in the password _JTextField._
 <br>
 
-- Doğrulama gerçekleşmezse, kullanıcıya bir _JOptionPane_ açılarak bilgilendirme yapılır.
+- If the authentication fails, the user will be notified by opening a _JOptionPane_ to provide them with information about the failure.
 <br>
 
-- Eğer ki kullanıcı adını veya şifresini yanlış girmişse _JTextField_ üzerinde mouse tıklaması yaparsa _JTextField_ içerisinde mevcut olan bütün yazıyı silip tekrar veri girilmesine hazır hale gelir.
+- If the user enters the username or password incorrectly and clicks on the _JTextField_, the text within the _JTextField_ will be cleared, allowing the user to enter new data.
 <br>
 
-- Eğer ki kullanıcı sistemde kayıtlı değilse _Kayıt ol_ Butonuna tıklayarak sisteme kayıt bilgilerini girebileceği ekrana yönlendirilir.
+- If the user is not registered in the system, they can be directed to a registration screen by clicking on the "_Register_" button, where they can enter their registration information.
 
 ----
 | ***Kayıt Ekranı Görüntüsü ve İşlevleri***

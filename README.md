@@ -129,186 +129,176 @@ These are the functions in brief.
 
 ----
 
-| ***Kitap İşlemleri Ekranı Görüntüsü ve İşlevleri***
+| ***Book Transactions Screen Capture and Functions***
 
 <img src="https://raw.githubusercontent.com/ahmetpyrzklnc/library_system/main/images/books.png"></a>
 
-> - Kütüphane içerisinde bulunan kitaplarla ilgili işlemler yapmaya olanak sağlayan bir takım fonksiyonların bir arada bulunduğu bir sayfadır.
-
-*İşlevleri:*
+> - It is a page that brings together a set of functions that allow for operations related to books available in the library.
 
 
-- ***Listeleme:*** Kütüphane içerisinde bulunan sisteme kayıtlı bütün kitaplar bir tablo halinde listelenir.
+
+- ***Listing:*** All the books registered in the system within the library are listed in a table format.
 <br>
 
-- ***Kayıt Ekle:***  Kütüphane sistemine dahil olacak yeni kitabın bilgileri girilerek veritabanına yeni bir kayıt gönderir. Kayıt sonucunu _JOptionPane_ penceresi açılarak kullanıcı bilgilendirilmiş olur.
+- ***Add Record:***  By entering the information of a new book to be included in the library system, a new record is sent to the database. The result of the record is displayed to the user through a _JOptionPane_ window for information..
 <br>
 
-- ***Güncelleme:*** Sistemde kayıtlı kitaplar arasında tablodan seçim yapılarak yanlış veya eski bir bilgi silinerek yenisiyle değiştirilebilir. Güncelleme sonucunu _JOptionPane_ penceresi açılarak kullanıcı bilgilendirilmiş olur.
+- ***Update:*** By selecting from the table among the registered books in the system, incorrect or outdated information can be deleted and replaced with new information. The result of the update is displayed to the user through a _JOptionPane_ window for information.
 <br>
 
-- ***Silme:*** Sistemde kayıtlı kitaplar arasından birinin tablodan seçilerek silinmesini sağlar. Silme sonucunu _JOptionPane_ penceresi açılarak kullanıcı bilgilendirilmiş olur.
+- ***Delete:*** Allows for the deletion of a selected book from the registered books in the system through the table. The result of the deletion is displayed to the user through a _JOptionPane_ window for information.
 <br>
 
-- ***Arama:*** Tablo içerisinden aranan kitabı bulmayı kolaylaştıran bir araçtır.
+- ***Search:*** It is a tool that facilitates finding the desired book within the table
 
-Kısaca bu şekilde özetleyebiliriz.
+We can summarize it briefly like this.
 
 ----
 
-| ***Öğrenci İşleri Ekran Görüntüsü ve İşlevleri***
+| ***Student Affairs Screen Capture and Functions***
 
 <img src="https://raw.githubusercontent.com/ahmetpyrzklnc/library_system/main/images/students.png"></a>
 
-> - Sistemde kayıtlı öğrencilerin bilgilerini değiştirmek, silmek veya yeni öğrenci kaydı oluşturmak için yapılmış bir arayüzdür.
-
-*İşlevleri:*
+> - It is an interface designed to modify, delete, or create new student records for the registered students in the system.
 
 
-- ***Listeleme:*** Sistemde kayıtlı öğrencilerin bilgilerini listeleyebilir.
+
+- ***Listing:*** It allows listing the information of the registered students in the system.
 <br>
 
-- ***Kayıt Ekleme:***  Sisteme yeni öğrencilerin eklemesini kolaylaştırabilir.
+- ***Add Record:***  It facilitates the addition of new students to the system.
 <br>
 
-- ***Güncelleme:*** Sistemde kayıtlı öğrenci verileri arasında değişiklik yapmaya olanak sağlar
+- ***Update:*** It allows for making changes to the data of registered students in the system.
 <br>
 
-- ***Silme:*** Sistemde kayıtlı öğrencilerin verilerini tamamen sistemden silebilir.
+- ***Delete:*** It can completely remove the data of registered students from the system.
 <br>
 
-- ***Arama:*** Veya öğrencileri liste içerisinden aramasını kolaylaştırır.
+- ***Search:*** It facilitates searching for students within the list.
 
-Kısaca bu şekilde özetleyebiliriz.
+We can summarize it briefly like this.
 
 ----
 
-| ***Kitap Türleri Ekran Görüntüsü ve İşlevleri***
+| ***Book Genres Screen Capture and Functions***
 
 <img src="https://raw.githubusercontent.com/ahmetpyrzklnc/library_system/main/images/bookType.png"></a>
 
-> - Sistemde kayıtlı olan kitap türlerini listelemeye veya işlemler yapmaya olanak sağlayan bir arayüzdür.
-
-*İşlevleri:*
+> - It is an interface that allows for listing and performing operations on the book genres registered in the system.
 
 
-- ***Listeleme:*** Sistemde kayıtlı olan kitaplar arasından bu kitapların türlerini bir tablo halinde listelemeye olanak sağlar.
+- ***Listing:*** It allows for listing the genres of books registered in the system in a table format, selected from among the registered books.
 <br>
 
-- ***Kayıt Ekleme:***  Veya yeni bir kitap türü girişini sisteme kaydeder.
+- ***Add Record:***  It enables adding a new book genre entry to the system.
 <br>
 
-- ***Güncelleme:*** Sistemde var olan kitap türleri kayıtları arasından güncelleme yapabilir.
+- ***Update:*** It allows for updating existing book genre records from the registered entries in the system.
 <br>
 
-- ***Silme:*** Veya sistemde var olan kitap türleri arasından tabloda seçim yaparak silmeye olanak sağlar.
+- ***Delete:*** It provides the ability to delete book genre records by selecting them from the table among the existing genres in the system..
 <br>
 
-- ***Arama:***  Sistemde kayıtlı olan kitap verileri arasından arama yapabilir.
+- ***Search:***  It allows for searching among the registered book genres in the system's data.
 
-Kısaca bu şekilde özetleyebiliriz.
+We can summarize it briefly like this.
 
 ---
 
-| ***Yazar İşlemleri Ekran Görüntüsü ve İşlevleri***
+| ***Author Operations Screen Capture and Functions***
 
 <img src="https://raw.githubusercontent.com/ahmetpyrzklnc/library_system/main/images/writer.png"></a>
 
-> - Sistemde kayıtlı olan kitap yazarlarını listeleme ve daha farklı işlemleri yapmaya olanak sağlayan bir arayüzdür.
-
-*İşlevleri:*
+> - It is an interface that allows for listing and performing various operations on the book authors registered in the system.
 
 
-- ***Listeleme:*** Sistemde kayıtlı olan yazarlar arasından bu yazarların tamamını listeleyebilir.
+- ***Listing:*** It enables listing all the authors registered in the system, selected from among the registered authors.
 <br>
 
-- ***Kayıt Ekleme:***  Veya yeni bir yazar girişini sisteme kaydeder.
+- ***Add Record:***  It allows for adding a new author entry to the system.
 <br>
 
-- ***Güncelleme:*** Sistemde var olan yazarlar arasından güncelleme yapabilir.
+- ***Update:*** It enables updating existing authors from the registered entries in the system.
 <br>
 
-- ***Silme:*** Veya sistemde var olan yazarlar arasından tabloda seçim yaparak silmeye olanak sağlar.
+- ***Delete:*** It provides the ability to delete authors by selecting them from the table among the existing authors in the system.
 <br>
 
-- ***Arama:***  Sistemde kayıtlı olan yazar verileri arasından arama yapabilir.
+- ***Search:***  It allows for searching among the registered author data in the system.
 
-Kısaca bu şekilde özetleyebiliriz.
+We can summarize it briefly like this.
 
 ---
 
-| ***Kayıt Geçmişi Ekran Görüntüsü ve İşlevleri***
+| ***Record History Screen Capture and Functions***
 
 <img src="https://github.com/ahmetpyrzklnc/library_system/blob/main/images/process.png"></a>
 
-> - Sistemde kayıtlı olan verilerin tamamını listelemeye veya işlemler yapabilecek ekrana yönlendirme yapmaya olanak sağlayan bir arayüzdür.
-
-*İşlevleri:*
+> - It is an interface that allows for listing all the records registered in the system and enables performing operations on them.
 
 
-- ***Listeleme:*** Sisteme bu zamana kadar girilmiş bütün verilerin tamamını listeleyebilir
+- ***Listing:*** It can list all the data entered into the system up to the present time.
 <br>
 
-- ***Arama:***  Sistemde yapılmış işlemler arasından arama yapılabilir.
+- ***Search:***  It allows for searching among the operations performed in the system.
 <br>
 
-- ***Kütüphane Analiz Ekranı:***  Yeni bir kayıt geçmişi eklemek için diğer fonksiyonel sayfaya yönlendirme yapabilir.
+- ***Library Analysis Screen:***  It can redirect to other functional pages for adding a new record history.
 
 
-Kısaca bu şekilde özetleyebiliriz.
+We can summarize it briefly like this.
 
 ---
 
-| ***Kayıt Geçmişi V2 Ekran Görüntüsü ve İşlevleri***
+| ***Record History V2 Screen Capture and Functions***
 
 <img src="https://github.com/ahmetpyrzklnc/library_system/blob/main/images/kutuphane_analizi_v2.png"></a>
 
-> - Sistemde kayıtlı olan tüm verilerin hepsini tablolar halinde listeleyebilen bir arayüzdür.
-
-*İşlevleri:*
+> - It is an interface that can list all the registered data in tables format.
 
 
-- ***Listeleme:*** Sisteme bu zamana kadar girilmiş bütün verilerin tamamını listeleyebilir
+- ***Listing:*** It can display a complete list of all the data entered into the system up to the present time.
 <br>
 
-- ***Arama:***  Sistemde yapılmış işlemler arasından arama yapılabilir.
+- ***Search:***  It allows for performing searches among the operations carried out in the system.
 <br>
 
-- ***Kayıt Ekleme:***  Sisteme yeni bir kayıt girişi ekleyebilir.
+- ***Add Record:***  It enables adding a new entry to the system.
 <br>
 
-- ***Kayıt Güncelleme:***  Sistemde yapılmış işlemler arasından tabloda seçim yapılarak güncelleme yapılabilir.
+- ***Update Record:***  It allows for updating a selected record from the operations performed in the system through the table.
 <br>
 
-- ***Kayıt Silme:***  Sistemde yapılmış işlemler arasından tabloda seçim yapılarak kayıt silinebilir.
+- ***Delete Record:***  It enables deleting a selected record from the operations performed in the system through the table.
 
 
-Kısaca bu şekilde özetleyebiliriz.
+We can summarize it briefly like this.
 
 ---
-# SQL SERVER Veritabanı
+# SQL SERVER DATABASE
 
-**Veritabanı Bilgileri:**
+**Database Information:**
 
-|  ***İlişkisel Veritabanı Tablosu Ekran Görüntüsü***
+|  ***Relational Database Table Screen Capture***
 
 <img src="https://github.com/ahmetpyrzklnc/library_system/blob/main/images/diagram_01.jpg"></a>
 <br>
- >***Tablo Hakkında: Tablo öncelikle SQL Server üzerinden hazırlanmış veriler girilmiştir. Sonrasında MYSQL veritabanı yönetim sisteminin içerisinde bulunan _Migration Wizard_ kullanarak bütün veriler MySQL içerisine taşınıp JAVA Swing Arayüzüyle buluşmuştur.***
+ >***About the Table: The table was initially populated with data through SQL Server. Subsequently, using the _Migration Wizard_ within the MYSQL database management system, all the data was migrated to MySQL and integrated with the JAVA Swing Interface.***
 
 ----
 
 
 <br>
 
-- **İncelediğiniz için Teşekkür Ederim!**
+- **Thank you for your review!**
 
 <br>
 
-- **Projeyle İlgili Sorularınız İçin:**
+- **For any questions related to the project, feel free to ask!**
 
 <br>
 
- > :mailbox: <a href="mailto:ahmtklnc.software@gmail.com">Bana buradan ulaşabilirsiniz!</a> :blush:
+ > :mailbox: <a href="mailto:ahmtklnc.software@gmail.com">You can reach me here!</a> :blush:
 
 
